@@ -1,0 +1,28 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">登录你的账号</h2>
+
+<div class="ui divider"></div>
+
+{% if error %}
+  <div class="ui negative message">
+    <div class="header">
+      错误
+    </div>
+    <p>{{ error }}</p>
+  </div>
+{% endif %}
+
+<form class="ui form" method="post">
+  <div class="field">
+    <label>账号</label>
+    <input name="username" type="text" placeholder="账号">
+  </div>
+  <div class="field">
+    <label>密码</label>
+    <input name="password" type="password" placeholder="密码">
+  </div>
+  <button class="ui button" type="submit">登录</button>
+</form>
+{% endblock %}
