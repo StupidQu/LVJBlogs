@@ -5,7 +5,7 @@ import rateLimit from 'express-rate-limit';
 const userRouter = express.Router();
 
 userRouter.get('/user/login', (req, res) => {
-  if (req.session.user && req.session.user.getSetting('id')) {
+  if (req.session.user) {
     res.redirect('/');
     res.end();
     return;
@@ -27,7 +27,6 @@ const loginLimiter = rateLimit({
 });
 
 userRouter.post('/user/login', loginLimiter, (req, res) => {
-  console.log(req.session.user);
   function failed(msg: string) {
     res.render('login.njk', {
       pagetitle: 'Login',
@@ -53,7 +52,7 @@ userRouter.post('/user/login', loginLimiter, (req, res) => {
 });
 
 userRouter.get('/user/register', (req, res) => {
-  if (req.session.user && req.session.user.getSetting('id')) {
+  if (req.session.user) {
     res.redirect('/');
     res.end();
     return;
@@ -85,8 +84,7 @@ userRouter.post('/user/register', (req, res) => {
     failed('该账号已被注册。');
     return;
   }
-  const user = UserModel.register(req.body.username, req.body.password, req.body.email);
-  req.session.user = user;
+  req.session.user = UserModel.register(req.body.username, req.body.password, req.body.email);
   res.redirect('/');
   return;
 });

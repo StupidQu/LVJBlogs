@@ -1,0 +1,57 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">上传文件</h2>
+
+<div class="ui divider"></div>
+
+<p>{{ blog.content|safe }}</p>
+
+<div class="ui form">
+    <div class="fields">
+        <div class="fourteen wide field">
+            <div class="ui file input">
+                <input id="file" type="file">
+            </div>
+        </div>
+        <div class="two wide field"><button id="upload" onClick="doUpload()" type="submit" class="ui fluid primary button">提交</button></div>
+    </div>
+</div>
+<div id="result"></div>
+
+<script>
+    function doUpload() {
+        $("#upload").attr('class', 'ui fluid primary loading button');
+        const formData = new FormData();
+        const fileName = $('#file').val().replace(/.*(\/|\\)/, '');
+        formData.append('file', $('#file').prop('files')[0]);
+        setTimeout(function() {
+            fetch('/file', {
+            method: 'post',
+            body: formData,
+        }).then(async function (response) {
+            response = await response.json();
+            const data = response;
+            $('#upload').removeClass('loading');
+            if (!data.success) {
+                $.toast({
+                    title: '上传失败',
+                    message: data.message,
+                    class: 'red',
+                    className: {
+                        toast: 'ui message',
+                    },
+                    position: 'bottom right',
+                });
+                return;
+            }
+            $(`<div class="ui segment">
+                <h4 class="ui header">${fileName} 上传成功</h4>
+                <p>文件链接：${data.link}</p>
+            </div>`).appendTo($('#result'));
+        });
+        }, 0);
+    };
+</script>
+
+{% endblock %} 

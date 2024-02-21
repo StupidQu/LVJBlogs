@@ -1,0 +1,16 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">欢迎来到 LVJ 博客</h2>
+
+<div class="ui divider"></div>
+
+{% for doc in blogs %}
+<div class="ui segment">
+  <h4 class="ui header"><a href="/blog/{{ doc._id }}">{{ doc.title }}</a></h4>
+  <p>内容摘要：{{ doc.content | truncate(70, true) }}</p>
+  <p>作者：{{ doc.author.username }}。</p>
+</div>
+{% endfor %}
+
+{% endblock %} 

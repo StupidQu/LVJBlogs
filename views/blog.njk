@@ -1,0 +1,12 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">{{ blog.title }}</h2>
+
+<p>作者：{{ blog.author.username }}，发表于 {{ blog.postAt }}。</p>
+
+<div class="ui divider"></div>
+
+<p>{{ blog.content|safe }}</p>
+
+{% endblock %} 

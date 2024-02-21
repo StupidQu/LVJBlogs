@@ -16,3 +16,12 @@ export enum PERM {
     PERM_EDIT_BLOG,
     PERM_UPLOAD_FILE,
 };
+
+export interface BlogDoc {
+    _id: number;
+    owner: number;
+    title: string;
+    content: string;
+    publishedAt: number;
+    rating: number;
+};
