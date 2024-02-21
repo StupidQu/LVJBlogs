@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 const fileRouter = express.Router();
-const BASE_URL = 'https://blog.tboj.cn/file/';
+const BASE_URL = 'https://file--cdn.tboj.cn/file/';
 
 fileRouter.get('/file', (req, res) => {
     if (!req.session.user) {
