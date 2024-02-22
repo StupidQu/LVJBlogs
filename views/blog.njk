@@ -1,12 +1,37 @@
 {% extends "layout/basic.njk" %}
 
 {% block content %}
-<h2 class="ui header">{{ blog.title }}</h2>
+<h2 class="ui header">{{ blog.title }}{% if blog.hidden %}<span class="ui yellow label">已隐藏</span>{% endif %}</h2>
 
 <p>作者：{{ blog.author.username }}，发表于 {{ blog.postAt }}。</p>
 
 <div class="ui divider"></div>
 
-<p>{{ blog.content|safe }}</p>
+{{ blog.content|safe }}
 
+<p>
+{% if PERM_EDIT %}
+    <a href="/blog/{{ blog._id }}/edit" class="ui small primary button">编辑</a>
+{% endif %}
+{% if PERM_HIDE %}
+    {% if blog.hidden %}
+        <button onclick="blogAction({{ blog._id }}, 'unhide')" class="ui small button">取消隐藏</button>
+    {% else %}
+        <button onclick="blogAction({{ blog._id }}, 'hide')" class="ui small button">隐藏</button>
+    {% endif %}
+{% endif %}
+{% if PERM_DELETE %}
+    <button onclick="blogAction({{ blog._id }}, 'delete')" class="ui small button">删除</button>
+{% endif %}
+</p>
+
+<script>
+    function blogAction(id, action) {
+        $.post('/admin/blog', { id, action }, function (data, status) {
+            if (status === 'success') {
+                window.location.reload();
+            }
+        });
+    }
+</script>
 {% endblock %} 

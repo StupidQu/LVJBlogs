@@ -1,0 +1,23 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">编辑博客：{{ blog.title }}</h2>
+
+<div class="ui divider"></div>
+
+<form class="ui form" method="post">
+    <div class="field">
+      <label>标题</label>
+      <input name="title" type="text" placeholder="标题" value="{{ blog.title }}">
+    </div>
+
+    <div class="field">
+      <label>内容</label>
+      <textarea rows="30" name="content" placeholder="博客正文，请使用 Markdown 与 LaTeX 数学公式...">{{ blog.content }}</textarea>
+    </div>
+
+    <button type="submit" class="ui primary button">更新</button>
+    <a class="ui button" href="/blog/{{ blog._id }}">取消</a>
+</form>
+
+{% endblock %} 

@@ -1,0 +1,70 @@
+{% extends "layout/basic.njk" %}
+
+{% block content %}
+<h2 class="ui header">后台管理</h2>
+
+
+{% if blogAdmin %}
+<div>
+    <h3 class="ui header">博客管理</h3>
+    
+    {% for doc in blogs %}
+    <div class="ui segment">
+        <h4 class="ui header"><a href="/blog/{{ doc._id }}">{{ doc.title }}</a></h4>
+        <p>
+            作者 {{ doc.author.username }}(UID={{ doc.owner }})，发表于 {{ doc.postAt }}{% if doc.hidden %} (已隐藏) {% endif %}。
+        </p>
+        {% if doc.hidden %}
+        <button onclick="blogAction({{ doc._id }}, 'unhide')" class="ui small button">取消隐藏</button>
+        {% else %}
+        <button onclick="blogAction({{ doc._id }}, 'hide')" class="ui small button">隐藏</button>
+        {% endif %}
+        <button onclick="blogAction({{ doc._id }}, 'delete')" class="ui small button">删除</button>
+        <button onclick="blogAction({{ doc._id }}, 'ban')" class="ui small red button">删除并封禁用户</button>
+    </div>
+    {% endfor %}
+    <script>
+        function blogAction(id, action) {
+            $.post('/admin/blog', { id, action }, function (data, status) {
+                if (status === 'success') {
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+</div>
+{% endif %}
+
+{% if fileAdmin %}
+<div>
+    <h3 class="ui header">文件管理</h3>
+    
+    {% for doc in files %}
+    <div class="ui segment">
+        <h4 class="ui header">{{ doc.originalName }}</h4>
+        <p>由 {{ doc.owner.username }} 上传于 {{ doc.uploadAt }}，文件大小 {{ doc.size }}B。</p>
+        <p>文件链接：<a href="{{ doc.filelink }}">{{ doc.filelink }}</a></p>
+        <button onclick="fileAction('{{ doc.sha256 }}', 'delete')" class="ui small button">删除</button>
+        <button onclick="fileAction('{{ doc.sha256 }}', 'ban')" class="ui small red button">删除并封禁用户</button>
+    </div>
+    {% endfor %}
+    <script>
+        function blogAction(id, action) {
+            $.post('/admin/blog', { id, action }, function (data, status) {
+                if (status === 'success') {
+                    window.location.reload();
+                }
+            });
+        }
+        function fileAction(sha256, action) {
+            $.post('/admin/file', { sha256, action }, function (data, status) {
+                if (status === 'success') {
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+</div>
+{% endif %}
+
+{% endblock %} 

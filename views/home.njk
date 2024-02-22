@@ -7,7 +7,7 @@
 
 {% for doc in blogs %}
 <div class="ui segment">
-  <h4 class="ui header"><a href="/blog/{{ doc._id }}">{{ doc.title }}</a></h4>
+  <h4 class="ui header"><a href="/blog/{{ doc._id }}">{{ doc.title }}</a>{% if doc.hidden %}<span class="ui yellow small label">已隐藏</span>{% endif %}</h4>
   <p>内容摘要：{{ doc.content | truncate(70, true) }}</p>
   <p>作者：{{ doc.author.username }}。</p>
 </div>

@@ -1,5 +1,6 @@
-import { BlogDoc } from '../interface';
+import { BlogDoc, PERM, UDoc } from '../interface';
 import fs from 'fs';
+import { UserModel } from './user';
 
 export class BlogModel {
     static getNextID() {
@@ -39,5 +40,16 @@ export class BlogModel {
             const id = parseInt(blogName.split('.')[0]);
             return BlogModel.get(id);
         });
+    }
+
+    static delete(id: number) {
+        fs.unlink(`data/blogs/${id}.json`, () => {});
+    }
+
+    static canEdit(id: number, user: UDoc) {
+        if (UserModel.hasPerm(user, PERM.PERM_EDIT_BLOG)) return true;
+        const blogDoc = BlogModel.get(id);
+        if (blogDoc.owner === user.id && UserModel.hasPerm(user, PERM.PERM_EDIT_OWN_BLOG)) return true;
+        return false
     }
 }

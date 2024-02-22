@@ -1,9 +1,9 @@
-import { UDoc } from "../interface";
+import { PERM, UDoc } from "../interface";
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
-const DEFAULT_PERM = 1;
+const DEFAULT_PERM = (1 << PERM.PERM_VIEW_BLOG) + (1 << PERM.PERM_POST_BLOG) + (1 << PERM.PERM_EDIT_OWN_BLOG);
 
 export class UserModel {
     static loadUser(uidOrPath: number | string): UDoc {
@@ -14,7 +14,8 @@ export class UserModel {
         }
     }
 
-    static hasPerm(user: UDoc, perm: number): boolean {
+    static hasPerm(user: UDoc | undefined, perm: number): boolean {
+        if (!user) return false;
         return (user.permission >> perm & 1) === 1;
     }
 

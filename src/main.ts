@@ -7,6 +7,7 @@ import userRouter from './routers/user';
 import homeRouter from './routers/home';
 import blogRouter from './routers/blog';
 import fileRouter from './routers/file';
+import adminRouter from './routers/admin';
 import MarkdownIt from 'markdown-it';
 import { UDoc } from './interface';
 
@@ -48,7 +49,7 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   req.UiContext = {
-    cdnUrl: '',
+    cdnUrl: 'https://file-cdn.tboj.cn',
     user: req.session.user,
   };
   req.markdown = markdown;
@@ -61,6 +62,7 @@ app.use(userRouter);
 app.use(homeRouter);
 app.use(blogRouter);
 app.use(fileRouter);
+app.use(adminRouter);
 
 app.listen(8888, () => {
   console.log('Server started on port 8888.');

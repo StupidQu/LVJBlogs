@@ -2,12 +2,13 @@ import express from 'express';
 import { UserModel } from '../model/user';
 import crypto from 'crypto';
 import { PERM } from '../interface';
+import { FileModel } from '../model/file';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 
 const fileRouter = express.Router();
-const BASE_URL = 'https://file--cdn.tboj.cn/file/';
+const BASE_URL = 'https://file-cdn.tboj.cn/file/';
 
 fileRouter.get('/file', (req, res) => {
     if (!req.session.user) {
@@ -43,7 +44,7 @@ fileRouter.post('/file', (req, res, next) => {
         }));
         return;
     }
-    const originalName = req.file.originalname;
+    const originalName = Buffer.from(req.file.originalname, 'latin1').toString('utf-8');
     const tmpFilePath = req.file.path;
     fs.readFile(req.file.path, (err, data) => {
         if (err) {
@@ -69,6 +70,14 @@ fileRouter.post('/file', (req, res, next) => {
                 }));
                 return;
             }
+            FileModel.saveMetadata(sha256, {
+                originalName,
+                user: req.session.user?.id || 0,
+                size: req.file?.size || 0,
+                sha256,
+                date: Date.now(),
+                filelink: BASE_URL + filename,
+            });
             res.end(JSON.stringify({
                 success: true,
                 message: '',

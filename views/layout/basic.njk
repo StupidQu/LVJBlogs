@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>{{ pagetitle }} - LVJ Blogs</title>
-    <script src="/static/jquery/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/fomantic-ui/semantic.min.css">
-    <script src="/static/fomantic-ui/semantic.min.js"></script>
-    <link rel="stylesheet" href="/static/katex/katex.min.css">
-    <script defer src="/static/katex/katex.min.js"></script>
-    <script defer src="/static/dist/contrib/auto-render.min.js"></script>
+    <script src="{{ cdnUrl }}/static/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ cdnUrl }}/static/fomantic-ui/semantic.min.css">
+    <script src="{{ cdnUrl }}/static/fomantic-ui/semantic.min.js"></script>
+    <link rel="stylesheet" href="{{ cdnUrl }}/static/katex/katex.min.css">
+    <script defer src="{{ cdnUrl }}/static/katex/katex.min.js"></script>
+    <script defer src="{{ cdnUrl }}/static/katex/contrib/auto-render.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
@@ -21,15 +21,16 @@
         });
       });
     </script>
-    <link rel="stylesheet" href="/static/prism/prism.css">
-    <script defer src="/static/prism/prism.js"></script>
+    <link rel="stylesheet" href="{{ cdnUrl }}/static/prism/prism.css">
+    <script defer src="{{ cdnUrl }}/static/prism/prism.js"></script>
   </head>
   <body>
     <div style="height: 48px;" class="ui borderless top fixed menu">
       <div class="ui container">
-        <a style="margin-left: -10px;" class="item" href="/"><i class="home icon"></i>首页</a>
-        <a class="item" href="/file/"><i class="file icon"></i>文件</a>
-        <a class="item" href="/post/"><i class="pen icon"></i>添加博客</a>
+        <a style="margin-left: -10px;" class="{% if pagetitle == 'Home' %} active {% endif %} item" href="/"><i class="home icon"></i>首页</a>
+        <a class="{% if pagetitle == 'File' %} active {% endif %} item" href="/file"><i class="file icon"></i>文件</a>
+        <a class="{% if pagetitle == 'Post' %} active {% endif %} item" href="/post"><i class="pen icon"></i>添加博客</a>
+        <a class="{% if pagetitle == 'Admin' %} active {% endif %} item" href="/admin"><i class="sliders horizontal icon"></i>管理</a>
         {% if user %}
         <div class="right item">{{ user.username }}</div>
         {% else %}
@@ -47,7 +48,7 @@
     <div>
       <div class="ui container">
         <div class="ui divider"></div>
-        <p>Copyright © 2024 LVJ, <a>Open-Source Project</a>. 本站内容在无特殊说明情况下均遵循 CC-BY-SA 4.0 协议，内容版权归属原作者。</p>
+        <p>Copyright © 2024 LVJ, <a href="https://github.com/StupidQu/LVJBlogs">Open-Source Project</a>. 本站内容在无特殊说明情况下均遵循 CC-BY-SA 4.0 协议，内容版权归属原作者。</p>
       </div>
     </div>
   </body>
