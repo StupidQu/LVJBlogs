@@ -64,6 +64,6 @@ app.use(blogRouter);
 app.use(fileRouter);
 app.use(adminRouter);
 
-app.listen(8888, () => {
-  console.log('Server started on port 8888.');
+app.listen(8080, () => {
+  console.log('Server started on port 8080.');
 });
