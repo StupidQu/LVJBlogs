@@ -27,7 +27,7 @@ blogRouter.get('/blog/:id', (req, res) => {
     blogDoc.content = req.markdown.render(blogDoc.content);
     res.render('blog.njk', {
         blog: blogDoc,
-        pagetitle: 'Blog',
+        pagetitle: blogDoc.title,
         PERM_HIDE: UserModel.hasPerm(req.session.user, PERM.PERM_EDIT_BLOG),
         PERM_DELETE: UserModel.hasPerm(req.session.user, PERM.PERM_EDIT_BLOG),
         PERM_EDIT: UserModel.hasPerm(req.session.user, PERM.PERM_EDIT_BLOG) 
