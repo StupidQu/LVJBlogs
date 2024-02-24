@@ -9,6 +9,7 @@ import blogRouter from './routers/blog';
 import fileRouter from './routers/file';
 import adminRouter from './routers/admin';
 import MarkdownIt from 'markdown-it';
+import { markdownItTable } from 'markdown-it-table';
 import { UDoc } from './interface';
 
 const app = express();
@@ -38,6 +39,7 @@ declare global {
 }
 
 const markdown = new MarkdownIt('commonmark');
+markdown.use(markdownItTable);
 
 nunjucks.configure('views/', {
   watch: true,

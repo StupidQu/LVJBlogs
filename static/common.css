@@ -1,0 +1,20 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    word-break: keep-all;
+    margin: 10px;
+    font-variant-numeric: tabular-nums;
+}
+
+table td {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}
+
+table th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}
